@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Data</title>
+    <style>
+        #countdown {
+            font-size: 20px;
+            margin-top: 10px;
+            font-weight: 400;
+        }
+        body{
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Latest User Data</h1>
+<div id="user-data"></div>
+<div id="countdown"></div>
+<script>
+        let countdownInterval;
+
+        async function fetchLatestUser() {
+            try {
+                const response = await fetch('/latest-user');
+                const user = await response.json();
+                const userDataDiv = document.getElementById('user-data');
+                userDataDiv.innerHTML = `
+                    <p>UserId: ${user.userId}</p>
+                    <p>Name: ${user.name}</p>
+                    <p>Address: ${user.address}</p>
+                    <p>Email: ${user.email}</p>
+                    <p>Date of Birth: ${new Date(user.dob).toLocaleDateString()}</p>
+                    <p>Phone: ${user.phone}</p>
+                `;
+                startCountdown();
+            } catch (error) {
+                console.error('Error fetching latest user data:', error);
+            }
+        }
+
+        function startCountdown() {
+            const countdownDiv = document.getElementById('countdown');
+            let timeLeft = 60;
+            clearInterval(countdownInterval); // Clear any existing intervals
+            countdownInterval = setInterval(() => {
+                countdownDiv.textContent = `Next update in ${timeLeft} seconds`;
+                timeLeft--;
+                if (timeLeft < 0) {
+                    clearInterval(countdownInterval);
+                    fetchLatestUser();
+                }
+            }, 1000);
+        }
+
+        // Initial fetch and start the countdown
+        fetchLatestUser();
+    </script>
+</body>
+</html>
