@@ -16,7 +16,7 @@ In the spring boot code files above, I have 5 endpoints:
 2. JPA `select user_id` endpoint
 3. JDBC `insert` endpoint
 4. JDBC `select user_id` endpoint
-5. Endpoint to view automatic data addition
+5. Endpoint to view automatic data addition (open in browser)
 
 ## MYSQL DDL Script
 ```
